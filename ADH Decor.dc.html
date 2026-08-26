@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/modernist-86f60715-7188-4b2b-844a-d49d005fd4d6/styles.css">
+<script src="_ds/modernist-86f60715-7188-4b2b-844a-d49d005fd4d6/_ds_bundle.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin:0; background:#FDFBF7; color:#211C16; font-family:'Manrope',system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+  a { color:#A6812F; text-decoration:none; transition:color .25s ease; }
+  a:hover { color:#211C16; }
+  ::selection { background:#E7DAC2; }
+  input, select, textarea, button { font-family:'Manrope',system-ui,sans-serif; }
+  input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible, a:focus-visible { outline:2px solid #A6812F; outline-offset:2px; }
+  image-slot { --is-bg:#EFE6D6; }
+  @keyframes adhFloat { 0%,100% { transform:translateY(0); } 50% { transform:translateY(7px); } }
+  @keyframes adhSway { 0%,100% { transform:rotate(-1.5deg); } 50% { transform:rotate(1.5deg); } }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } }
+</style>
+</helmet>
+
+<div style="background:#FDFBF7;overflow-x:hidden">
+
+  <!-- ============ NAV ============ -->
+  <div style="position:fixed;top:0;left:0;right:0;z-index:80">
+    <div style="position:relative">
+      <div style="{{ navBackdrop }}"></div>
+      <nav style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:18px clamp(20px,4vw,64px);backdrop-filter:blur(14px);background:rgba(253,251,247,.66)">
+        <a href="#home" style="font-family:'Manrope',sans-serif;font-size:13px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:#211C16">ADH Decor</a>
+        <div style="display:flex;align-items:center;gap:clamp(14px,2.4vw,34px)">
+          <a href="#work" style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#4A4438;display:none;white-space:nowrap" data-navlink="1">Our Work</a>
+          <a href="#services" style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#4A4438;display:none;white-space:nowrap" data-navlink="1">Services</a>
+          <a href="#packages" style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#4A4438;display:none;white-space:nowrap" data-navlink="1">Packages</a>
+          <a href="#about" style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#4A4438;display:none;white-space:nowrap" data-navlink="1">About</a>
+          <a href="#contact" style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#4A4438;display:none;white-space:nowrap" data-navlink="1">Contact</a>
+          <a href="#contact" style="display:inline-flex;align-items:center;white-space:nowrap;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#2A2213;background:linear-gradient(100deg,#E8CD8C 0%,#FFF7DF 30%,#D9B45E 62%,#B8923F 100%);padding:13px 22px;transition:filter .3s ease" style-hover="filter:brightness(1.08)">Book Your Event</a>
+          <button type="button" onClick="{{ toggleMenu }}" aria-label="Menu" style="display:flex;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;padding:0 10px;border:none;background:transparent;cursor:pointer" data-burger="1">
+            <span style="display:block;height:1px;background:#211C16"></span>
+            <span style="display:block;height:1px;background:#211C16"></span>
+          </button>
+        </div>
+      </nav>
+    </div>
+    <div style="{{ mobileMenu }}">
+      <a href="#work" onClick="{{ closeMenu }}" style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#211C16">Our Work</a>
+      <a href="#services" onClick="{{ closeMenu }}" style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#211C16">Services</a>
+      <a href="#packages" onClick="{{ closeMenu }}" style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#211C16">Packages</a>
+      <a href="#about" onClick="{{ closeMenu }}" style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#211C16">About</a>
+      <a href="#contact" onClick="{{ closeMenu }}" style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#211C16">Contact</a>
+      <div style="height:1px;background:#E7DAC2;margin:8px 0"></div>
+      <a href="#contact" onClick="{{ closeMenu }}" style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#FDFBF7;background:#211C16;padding:16px;text-align:center">Book Your Event</a>
+    </div>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <section id="home" style="position:relative;height:min(100svh,940px);min-height:600px;width:100%">
+    <div style="position:absolute;inset:0">
+      <image-slot id="adh-hero" src="{{ heroSrc }}" shape="rect" fit="cover" placeholder="Drop the hero photograph — a full setup, shot wide"></image-slot>
+    </div>
+    <div style="position:absolute;inset:0;background:radial-gradient(120% 70% at 84% 6%,rgba(201,164,76,.20) 0%,rgba(201,164,76,0) 58%),radial-gradient(90% 60% at 2% 92%,rgba(184,146,66,.18) 0%,rgba(184,146,66,0) 62%);pointer-events:none"></div>
+    <div style="position:absolute;left:0;top:0;bottom:0;width:clamp(90px,13vw,220px);background:linear-gradient(104deg,rgba(232,205,140,0) 12%,rgba(232,205,140,.20) 40%,rgba(255,246,214,.34) 52%,rgba(198,158,70,.20) 64%,rgba(198,158,70,0) 88%);filter:blur(14px);opacity:.7;pointer-events:none"></div>
+    <div style="position:absolute;right:0;top:0;height:46%;width:clamp(70px,10vw,170px);background:linear-gradient(-98deg,rgba(232,205,140,0) 14%,rgba(232,205,140,.18) 42%,rgba(255,246,214,.30) 54%,rgba(198,158,70,.18) 66%,rgba(198,158,70,0) 88%);filter:blur(13px);opacity:.62;pointer-events:none"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,23,17,.52) 0%,rgba(28,23,17,.30) 34%,rgba(28,23,17,.46) 62%,rgba(28,23,17,.80) 100%);pointer-events:none"></div>
+    <div style="position:absolute;left:0;right:0;bottom:0;padding:0 clamp(20px,4vw,64px) clamp(48px,7vh,96px);pointer-events:none">
+      <div style="max-width:920px;display:flex;flex-direction:column;gap:clamp(18px,3vh,30px)">
+        <div style="display:flex;align-items:center;gap:14px">
+          <span style="display:block;width:clamp(28px,4vw,58px);height:1px;background:linear-gradient(90deg,rgba(246,228,180,0),#F6E4B4)"></span>
+          <span style="font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#FDFBF7">Event Decoration &amp; Rentals</span>
+        </div>
+        <h1 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(38px,7.6vw,104px);line-height:1.02;letter-spacing:.03em;text-transform:uppercase;color:#FDFBF7;text-wrap:balance">Elevate Your<br><em style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:.01em;color:#FDFBF7">Celebration.</em></h1>
+        <p style="margin:0;max-width:560px;font-size:clamp(14px,1.5vw,17px);line-height:1.8;font-weight:300;color:rgba(253,251,247,.88);text-wrap:pretty">Ivory linens, white florals and gilded detail — luxury event styling for the moments that deserve to be remembered.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;pointer-events:auto;margin-top:4px">
+          <a href="#work" style="display:inline-flex;align-items:center;white-space:nowrap;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#2A2213;background:linear-gradient(100deg,#E8CD8C 0%,#FFF7DF 30%,#D9B45E 62%,#B8923F 100%);padding:17px 30px;box-shadow:0 6px 26px rgba(184,146,66,.34);transition:filter .3s ease" style-hover="filter:brightness(1.08)">View Our Work</a>
+          <a href="#contact" style="display:inline-flex;align-items:center;white-space:nowrap;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#FDFBF7;border:1px solid rgba(253,251,247,.5);padding:17px 30px;transition:background .3s ease,color .3s ease" style-hover="background:#FDFBF7;color:#211C16">Book Your Event</a>
+        </div>
+      </div>
+    </div>
+    <div style="position:absolute;right:clamp(20px,4vw,64px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none">
+      <span style="font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:rgba(253,251,247,.65);writing-mode:vertical-rl">Scroll</span>
+      <span style="display:block;width:1px;height:56px;background:linear-gradient(180deg,rgba(253,251,247,.7),rgba(253,251,247,0));animation:adhFloat 2.6s ease-in-out infinite"></span>
+    </div>
+  </section>
+
+  <!-- ============ INTRO / TRUST ============ -->
+  <section id="about" style="padding:clamp(72px,12vh,150px) clamp(20px,4vw,64px);background:#FDFBF7">
+    <div style="max-width:1360px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(36px,5vw,80px);align-items:center">
+      <div data-reveal="1" style="display:flex;flex-direction:column;gap:26px">
+        <span style="font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#8C8069">About ADH Decor</span>
+        <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(30px,4.2vw,58px);line-height:1.08;letter-spacing:-.01em;color:#211C16;text-wrap:pretty">We turn ordinary spaces into <em style="font-weight:400">unforgettable moments.</em></h2>
+        <div style="width:64px;height:1px;background:#C9A44C"></div>
+        <p style="margin:0;max-width:520px;font-size:16px;line-height:1.85;font-weight:300;color:#5A5348;text-wrap:pretty">Every setup we create is designed around one occasion and one person. From an intimate room surprise to a full celebration, ADH Decor plans the concept, sources the balloons, florals, candles and props, and installs everything on site — so the room is ready before the moment arrives.</p>
+        <a href="#services" style="align-self:flex-start;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#211C16;border-bottom:1px solid #C9A44C;padding-bottom:6px">What we create →</a>
+      </div>
+      <div data-reveal="1" style="position:relative;aspect-ratio:4/5;min-height:340px">
+        <image-slot id="adh-intro" src="{{ introSrc }}" shape="rect" fit="cover" placeholder="Drop a styled detail photo"></image-slot>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FLORAL ORNAMENT ============ -->
+  <div style="display:flex;align-items:center;justify-content:center;gap:clamp(14px,2.5vw,30px);padding:0 clamp(20px,4vw,64px) clamp(28px,5vh,64px);background:#FDFBF7">
+    <span style="flex:1 1 auto;max-width:320px;height:1px;background:linear-gradient(90deg,rgba(201,164,76,0),rgba(201,164,76,.55))"></span>
+    <div style="position:relative;width:70px;height:38px;flex:0 0 auto;animation:adhSway 7s ease-in-out infinite">
+      <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:22px;height:22px">
+        <span style="position:absolute;inset:0;background:#FFFFFF;border:1px solid #EADFCB;border-radius:60% 0 60% 0;transform:rotate(0deg);box-shadow:0 1px 3px rgba(28,23,17,.06)"></span>
+        <span style="position:absolute;inset:0;background:#FFFFFF;border:1px solid #EADFCB;border-radius:60% 0 60% 0;transform:rotate(72deg);box-shadow:0 1px 3px rgba(28,23,17,.06)"></span>
+        <span style="position:absolute;inset:0;background:#FFFFFF;border:1px solid #EADFCB;border-radius:60% 0 60% 0;transform:rotate(144deg);box-shadow:0 1px 3px rgba(28,23,17,.06)"></span>
+        <span style="position:absolute;inset:0;background:#FFFDF8;border:1px solid #EADFCB;border-radius:60% 0 60% 0;transform:rotate(216deg);box-shadow:0 1px 3px rgba(28,23,17,.06)"></span>
+        <span style="position:absolute;inset:0;background:#FFFDF8;border:1px solid #EADFCB;border-radius:60% 0 60% 0;transform:rotate(288deg);box-shadow:0 1px 3px rgba(28,23,17,.06)"></span>
+        <span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:6px;height:6px;border-radius:50%;background:linear-gradient(140deg,#E8CD8C,#B8923F)"></span>
+      </div>
+      <span style="position:absolute;left:2px;top:50%;width:16px;height:1px;background:linear-gradient(90deg,rgba(201,164,76,0),#C9A44C)"></span>
+      <span style="position:absolute;right:2px;top:50%;width:16px;height:1px;background:linear-gradient(-90deg,rgba(201,164,76,0),#C9A44C)"></span>
+    </div>
+    <span style="flex:1 1 auto;max-width:320px;height:1px;background:linear-gradient(-90deg,rgba(201,164,76,0),rgba(201,164,76,.55))"></span>
+  </div>
+
+  <!-- ============ SERVICES ============ -->
+  <section id="services" style="padding:clamp(64px,10vh,120px) clamp(20px,4vw,64px);background:#F4EDE1;border-top:1px solid #E7DAC2">
+    <div style="max-width:1360px;margin:0 auto">
+      <div data-reveal="1" style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:clamp(32px,5vh,60px)">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <span style="font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#8C8069">What We Create</span>
+          <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(28px,3.6vw,48px);line-height:1.1;color:#211C16">Thoughtfully styled celebrations,<br>made just for you.</h2>
+        </div>
+        <a href="#contact" style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#211C16;border-bottom:1px solid #C9A44C;padding-bottom:6px">Enquire →</a>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:clamp(12px,1.6vw,22px)">
+        <sc-for list="{{ services }}" as="s" hint-placeholder-count="6">
+          <a href="#contact" data-reveal="1" style="display:block;text-decoration:none;color:inherit;position:relative;overflow:hidden;background:#FDFBF7" style-hover="transform:translateY(-3px)">
+            <div style="position:relative;aspect-ratio:4/5;overflow:hidden">
+              <div style="{{ s.imgWrap }}">
+                <image-slot id="{{ s.slotId }}" src="{{ s.src }}" shape="rect" fit="cover" placeholder="{{ s.placeholder }}"></image-slot>
+              </div>
+              <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,23,17,0) 42%,rgba(28,23,17,.7) 100%);pointer-events:none"></div>
+              <div style="position:absolute;left:0;right:0;bottom:0;padding:24px;display:flex;flex-direction:column;gap:9px;pointer-events:none">
+                <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:400;font-size:26px;line-height:1.15;color:#FDFBF7">{{ s.title }}</h3>
+                <p style="margin:0;font-size:13px;line-height:1.65;font-weight:300;color:rgba(253,251,247,.82)">{{ s.body }}</p>
+                <span style="font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#FDFBF7;margin-top:4px">Enquire →</span>
+              </div>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PORTFOLIO ============ -->
+  <section id="work" style="padding:clamp(64px,10vh,124px) clamp(20px,4vw,64px);background:#FDFBF7">
+    <div style="max-width:1440px;margin:0 auto">
+      <div data-reveal="1" style="display:flex;flex-direction:column;gap:14px;margin-bottom:clamp(28px,4vh,44px)">
+        <span style="font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#8C8069">Portfolio</span>
+        <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(30px,4.6vw,64px);line-height:1.04;letter-spacing:-.01em;color:#211C16">A glimpse of <em style="font-weight:400">our work.</em></h2>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;padding-bottom:22px;border-bottom:1px solid #E7DAC2;margin-bottom:clamp(20px,3vh,32px)">
+        <sc-for list="{{ filters }}" as="f" hint-placeholder-count="7">
+          <button type="button" onClick="{{ f.onClick }}" style="{{ f.style }}">{{ f.label }}</button>
+        </sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr));grid-auto-flow:dense;align-items:start;gap:clamp(10px,1.4vw,18px)">
+        <sc-for list="{{ shots }}" as="p" hint-placeholder-count="9">
+          <div style="{{ p.cellStyle }}">
+            <button type="button" onClick="{{ p.onClick }}" style="position:absolute;inset:0;padding:0;border:none;background:#EFE6D6;cursor:zoom-in;overflow:hidden;display:block;width:100%">
+              <div style="{{ p.imgWrap }}">
+                <image-slot id="{{ p.slotId }}" src="{{ p.src }}" shape="rect" fit="cover" placeholder="{{ p.placeholder }}"></image-slot>
+              </div>
+              <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,23,17,0) 55%,rgba(28,23,17,.6) 100%);opacity:0;transition:opacity .35s ease;pointer-events:none" data-hoverveil="1"></div>
+              <div style="position:absolute;left:0;right:0;bottom:0;padding:18px;text-align:left;pointer-events:none;opacity:0;transform:translateY(8px);transition:opacity .35s ease,transform .35s ease" data-hovercap="1">
+                <div style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(253,251,247,.8)">{{ p.category }}</div>
+                <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#FDFBF7;margin-top:3px">{{ p.title }}</div>
+              </div>
+            </button>
+          </div>
+        </sc-for>
+      </div>
+      <p data-reveal="1" style="margin:28px 0 0;font-size:12px;letter-spacing:.04em;color:#6E6656">Click any photograph to view it larger. Drag a new image onto a frame to swap it.</p>
+    </div>
+  </section>
+
+  <!-- ============ BEFORE / AFTER ============ -->
+  <section style="position:relative;padding:clamp(64px,10vh,124px) clamp(20px,4vw,64px);background:#211C16;overflow:hidden">
+    <div style="position:absolute;inset:0;background:radial-gradient(80% 60% at 88% 4%,rgba(201,164,76,.22) 0%,rgba(201,164,76,0) 62%),radial-gradient(70% 50% at -6% 96%,rgba(232,205,140,.16) 0%,rgba(232,205,140,0) 64%);pointer-events:none"></div>
+    <div style="position:relative;max-width:1360px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(32px,4vw,64px);align-items:center">
+      <div data-reveal="1" style="display:flex;flex-direction:column;gap:22px">
+        <span style="font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(253,251,247,.55)">From Space to Experience</span>
+        <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(28px,3.8vw,52px);line-height:1.08;color:#FDFBF7">An ordinary room,<br><em style="font-weight:400;background:linear-gradient(96deg,#F6E4B4,#E8CD8C 40%,#C79E46);-webkit-background-clip:text;background-clip:text;color:transparent">completely transformed.</em></h2>
+        <p style="margin:0;max-width:420px;font-size:15px;line-height:1.85;font-weight:300;color:rgba(253,251,247,.7);text-wrap:pretty">We arrive with everything the concept needs — tables, linens, florals, candles, cushions and rugs — and hand the space back styled, lit and ready to photograph.</p>
+        <div style="display:flex;gap:28px;padding-top:6px">
+          <div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#FDFBF7">2–4h</span><span style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(253,251,247,.5)">Typical setup</span></div>
+          <div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#FDFBF7">100%</span><span style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(253,251,247,.5)">Custom concepts</span></div>
+        </div>
+      </div>
+      <div data-reveal="1" style="display:grid;grid-template-columns:1.35fr 1fr;gap:clamp(10px,1.4vw,18px);align-items:end">
+        <div style="position:relative;aspect-ratio:3/4;min-height:240px;overflow:hidden">
+          <image-slot id="adh-band" src="{{ bandSrc }}" shape="rect" fit="cover" placeholder="A full styled table, shot wide"></image-slot>
+        </div>
+        <div style="position:relative;aspect-ratio:1/1;overflow:hidden">
+          <image-slot id="adh-detail" src="{{ detailSrc }}" shape="rect" fit="cover" placeholder="A styling detail, close up"></image-slot>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PACKAGES ============ -->
+  <section id="packages" style="padding:clamp(64px,10vh,124px) clamp(20px,4vw,64px);background:#F4EDE1;border-bottom:1px solid #E7DAC2">
+    <div style="max-width:1360px;margin:0 auto">
+      <div data-reveal="1" style="display:flex;flex-direction:column;gap:14px;margin-bottom:clamp(32px,5vh,56px)">
+        <span style="font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#8C8069">Packages</span>
+        <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(28px,3.8vw,52px);line-height:1.08;color:#211C16">Start with a shape,<br><em style="font-weight:400">we tailor the rest.</em></h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(14px,1.8vw,26px)">
+        <sc-for list="{{ packages }}" as="k" hint-placeholder-count="3">
+          <div data-reveal="1" style="display:flex;flex-direction:column;gap:20px;background:#FDFBF7;border:1px solid #EADFCB;padding:clamp(26px,3vw,40px)">
+            <span style="font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#A6812F">{{ k.kicker }}</span>
+            <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:400;font-size:30px;line-height:1.1;color:#211C16">{{ k.name }}</h3>
+            <p style="margin:0;font-size:14px;line-height:1.7;font-weight:300;color:#5A5348">{{ k.blurb }}</p>
+            <div style="height:1px;background:#EADFCB"></div>
+            <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:11px">
+              <sc-for list="{{ k.items }}" as="i" hint-placeholder-count="4">
+                <li style="display:flex;gap:11px;align-items:baseline;font-size:14px;font-weight:300;color:#3D382E"><span style="color:#C9A44C;font-size:9px">◆</span>{{ i }}</li>
+              </sc-for>
+            </ul>
+            <a href="#contact" style="margin-top:auto;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#FDFBF7;background:#211C16;padding:15px 20px;text-align:left;transition:background .3s ease" style-hover="background:#A6812F">{{ k.cta }}</a>
+          </div>
+        </sc-for>
+      </div>
+      <p data-reveal="1" style="margin:26px 0 0;max-width:640px;font-size:13px;line-height:1.8;color:#7A7160">Final pricing depends on location, event type, number of decorations, customization and setup requirements. Every quote is prepared individually.</p>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section style="padding:clamp(64px,10vh,120px) clamp(20px,4vw,64px);background:#FDFBF7">
+    <div style="max-width:1360px;margin:0 auto">
+      <span data-reveal="1" style="display:block;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#8C8069;margin-bottom:clamp(28px,4vh,48px)">How It Works</span>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:clamp(24px,3vw,48px)">
+        <sc-for list="{{ steps }}" as="t" hint-placeholder-count="3">
+          <div data-reveal="1" style="display:flex;flex-direction:column;gap:14px;border-top:1px solid #211C16;padding-top:22px">
+            <span style="font-family:'Cormorant Garamond',serif;font-size:56px;line-height:1;font-weight:300;color:#D8C48A">{{ t.n }}</span>
+            <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:400;font-size:26px;color:#211C16">{{ t.title }}</h3>
+            <p style="margin:0;font-size:14px;line-height:1.8;font-weight:300;color:#5A5348;max-width:320px">{{ t.body }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIALS ============ -->
+  <section style="padding:clamp(60px,9vh,110px) clamp(20px,4vw,64px);background:#F7F1E4">
+    <div style="max-width:1360px;margin:0 auto">
+      <span data-reveal="1" style="display:block;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#8C8069;margin-bottom:clamp(26px,4vh,44px)">In Their Words</span>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(24px,3vw,52px)">
+        <sc-for list="{{ quotes }}" as="q" hint-placeholder-count="3">
+          <blockquote data-reveal="1" style="margin:0;display:flex;flex-direction:column;gap:18px">
+            <p style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:clamp(20px,2vw,26px);line-height:1.45;color:#211C16;text-wrap:pretty">{{ q.text }}</p>
+            <footer style="font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#8C8069">— {{ q.who }}</footer>
+          </blockquote>
+        </sc-for>
+      </div>
+      <p data-reveal="1" style="margin:30px 0 0;font-size:12px;color:#9A907F">Placeholder testimonials — replace with real client feedback before launch.</p>
+    </div>
+  </section>
+
+  <!-- ============ INSTAGRAM ============ -->
+  <section style="padding:clamp(64px,10vh,120px) clamp(20px,4vw,64px);background:#FDFBF7">
+    <div style="max-width:1440px;margin:0 auto">
+      <div data-reveal="1" style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:clamp(24px,3.5vh,40px)">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#8C8069">Follow the Magic</span>
+          <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(26px,3.2vw,44px);line-height:1.1;color:#211C16">More celebrations. More inspiration.<br>More ADH Decor.</h2>
+        </div>
+        <a href="https://www.instagram.com/adh.decor/" target="_blank" rel="noopener" style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#211C16;border-bottom:1px solid #C9A44C;padding-bottom:6px">@adh.decor — Follow on Instagram →</a>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(50% - 8px,200px),1fr));gap:clamp(8px,1vw,14px)">
+        <sc-for list="{{ social }}" as="g" hint-placeholder-count="8">
+          <a href="https://www.instagram.com/adh.decor/" target="_blank" rel="noopener" style="position:relative;aspect-ratio:1/1;display:block;overflow:hidden;background:#EFE6D6">
+            <image-slot id="{{ g.slotId }}" src="{{ g.src }}" shape="rect" fit="cover" placeholder="Instagram post"></image-slot>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BOOKING ============ -->
+  <section id="contact" style="padding:clamp(64px,10vh,130px) clamp(20px,4vw,64px);background:#F4EDE1;border-top:1px solid #E7DAC2">
+    <div style="max-width:1360px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(36px,5vw,80px)">
+      <div data-reveal="1" style="display:flex;flex-direction:column;gap:24px">
+        <span style="font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#8C8069">Book Your Event</span>
+        <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(32px,4.6vw,62px);line-height:1.03;letter-spacing:-.01em;color:#211C16">Let's create something <em style="font-weight:400;background:linear-gradient(96deg,#C79E46,#B8923F 45%,#8A6D2A);-webkit-background-clip:text;background-clip:text;color:transparent">beautiful.</em></h2>
+        <p style="margin:0;max-width:420px;font-size:16px;line-height:1.85;font-weight:300;color:#5A5348;text-wrap:pretty">Tell us what you're celebrating and we'll help bring your vision to life.</p>
+        <div style="height:1px;background:#E7DAC2;max-width:420px"></div>
+        <div style="display:flex;flex-direction:column;gap:14px;max-width:420px">
+          <div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#8C8069">Service Area</span><span style="font-family:'Cormorant Garamond',serif;font-size:24px;color:#211C16">{{ serviceArea }}</span></div>
+          <div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#8C8069">WhatsApp / Phone</span><span style="font-size:15px;color:#3D382E">{{ phoneDisplay }}</span></div>
+          <div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#8C8069">Email</span><span style="font-size:15px;color:#3D382E">{{ emailDisplay }}</span></div>
+        </div>
+      </div>
+
+      <div data-reveal="1" style="background:#FDFBF7;border:1px solid #EADFCB;padding:clamp(24px,3vw,44px)">
+        <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:18px;align-items:flex-start;padding:clamp(20px,4vh,60px) 0">
+            <span style="font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#A6812F">Request Received</span>
+            <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(26px,3vw,40px);line-height:1.1;color:#211C16">Thank you — we'll be in touch shortly.</h3>
+            <p style="margin:0;font-size:15px;line-height:1.8;font-weight:300;color:#5A5348;max-width:400px">We usually reply within a few hours. For anything urgent, message us on WhatsApp and we'll answer right away.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:6px">
+              <a href="{{ waLink }}" target="_blank" rel="noopener" style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#FDFBF7;background:#211C16;padding:15px 24px">Chat on WhatsApp</a>
+              <button type="button" onClick="{{ resetForm }}" style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#211C16;background:transparent;border:1px solid #D8C48A;padding:15px 24px;cursor:pointer">Send another</button>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+          <form onSubmit="{{ onSubmit }}" noValidate="{{ true }}" style="display:flex;flex-direction:column;gap:18px">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px">
+              <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#8C8069">Name *</span><input name="name" value="{{ f_name }}" onChange="{{ onField }}" placeholder="Your name" style="border:none;border-bottom:1px solid #DED0B4;background:transparent;padding:9px 0;font-size:15px;color:#211C16"></label>
+              <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#8C8069">Phone / WhatsApp *</span><input name="phone" value="{{ f_phone }}" onChange="{{ onField }}" placeholder="+1 000 000 0000" style="border:none;border-bottom:1px solid #DED0B4;background:transparent;padding:9px 0;font-size:15px;color:#211C16"></label>
+              <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#8C8069">Email</span><input name="email" value="{{ f_email }}" onChange="{{ onField }}" placeholder="you@email.com" style="border:none;border-bottom:1px solid #DED0B4;background:transparent;padding:9px 0;font-size:15px;color:#211C16"></label>
+              <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#8C8069">Event Type *</span>
+                <select name="type" value="{{ f_type }}" onChange="{{ onField }}" style="border:none;border-bottom:1px solid #DED0B4;background:transparent;padding:9px 0;font-size:15px;color:#211C16">
+                  <option value="">Select…</option>
+                  <option value="Birthday">Birthday</option>
+                  <option value="Anniversary">Anniversary</option>
+                  <option value="Proposal">Proposal</option>
+                  <option value="Romantic Room Setup">Romantic Room Setup</option>
+                  <option value="Baby Shower">Baby Shower</option>
+                  <option value="Balloon Decoration">Balloon Decoration</option>
+                  <option value="Other">Other</option>
+                </select>
+              </label>
+              <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#8C8069">Event Date</span><input name="date" type="date" value="{{ f_date }}" onChange="{{ onField }}" style="border:none;border-bottom:1px solid #DED0B4;background:transparent;padding:9px 0;font-size:15px;color:#211C16"></label>
+              <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#8C8069">Location</span><input name="location" value="{{ f_location }}" onChange="{{ onField }}" placeholder="City / venue" style="border:none;border-bottom:1px solid #DED0B4;background:transparent;padding:9px 0;font-size:15px;color:#211C16"></label>
+              <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#8C8069">Approximate Budget</span><input name="budget" value="{{ f_budget }}" onChange="{{ onField }}" placeholder="Optional" style="border:none;border-bottom:1px solid #DED0B4;background:transparent;padding:9px 0;font-size:15px;color:#211C16"></label>
+            </div>
+            <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#8C8069">Tell us about your vision</span><textarea name="vision" value="{{ f_vision }}" onChange="{{ onField }}" rows="4" placeholder="Occasion, colours, style, anything you've saved from our Instagram…" style="border:1px solid #DED0B4;background:transparent;padding:12px;font-size:15px;line-height:1.6;color:#211C16;resize:vertical"></textarea></label>
+            <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
+              <p style="margin:0;font-size:13px;color:#A6812F">{{ errorText }}</p>
+            </sc-if>
+            <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:4px">
+              <button type="submit" style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#FDFBF7;background:#211C16;border:none;padding:17px 30px;cursor:pointer;transition:background .3s ease" style-hover="background:#A6812F">Request a Quote</button>
+              <a href="{{ waLink }}" target="_blank" rel="noopener" style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#211C16;border-bottom:1px solid #C9A44C;padding-bottom:5px">Or message on WhatsApp</a>
+            </div>
+          </form>
+        </sc-if>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LOCATION ============ -->
+  <section style="padding:clamp(48px,7vh,90px) clamp(20px,4vw,64px);background:#FDFBF7;text-align:left">
+    <div style="max-width:1360px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px">
+      <div data-reveal="1" style="display:flex;flex-direction:column;gap:12px">
+        <span style="font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#8C8069">Serving Your Celebrations</span>
+        <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(26px,3.4vw,46px);line-height:1.08;color:#211C16">{{ serviceArea }}</h2>
+        <p style="margin:0;font-size:14px;color:#7A7160">Travelling further? Ask us — we take select events outside our usual area.</p>
+      </div>
+      <a href="#contact" style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#211C16;border-bottom:1px solid #C9A44C;padding-bottom:6px">Check availability →</a>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="padding:clamp(48px,7vh,88px) clamp(20px,4vw,64px) 34px;background:#211C16">
+    <div style="max-width:1360px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:clamp(28px,4vw,64px)">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <span style="font-size:13px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:#FDFBF7">ADH Decor</span>
+        <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:#E8CD8C">Luxury event styling.</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <span style="font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(253,251,247,.45)">Explore</span>
+        <a href="#home" style="font-size:14px;font-weight:300;color:rgba(253,251,247,.85)">Home</a>
+        <a href="#work" style="font-size:14px;font-weight:300;color:rgba(253,251,247,.85)">Our Work</a>
+        <a href="#services" style="font-size:14px;font-weight:300;color:rgba(253,251,247,.85)">Services</a>
+        <a href="#packages" style="font-size:14px;font-weight:300;color:rgba(253,251,247,.85)">Packages</a>
+        <a href="#about" style="font-size:14px;font-weight:300;color:rgba(253,251,247,.85)">About</a>
+        <a href="#contact" style="font-size:14px;font-weight:300;color:rgba(253,251,247,.85)">Contact</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <span style="font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(253,251,247,.45)">Contact</span>
+        <span style="font-size:14px;font-weight:300;color:rgba(253,251,247,.85)">{{ phoneDisplay }}</span>
+        <a href="{{ waLink }}" target="_blank" rel="noopener" style="font-size:14px;font-weight:300;color:rgba(253,251,247,.85)">WhatsApp</a>
+        <span style="font-size:14px;font-weight:300;color:rgba(253,251,247,.85)">{{ emailDisplay }}</span>
+        <a href="https://www.instagram.com/adh.decor/" target="_blank" rel="noopener" style="font-size:14px;font-weight:300;color:rgba(253,251,247,.85)">Instagram — @adh.decor</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <span style="font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(253,251,247,.45)">Service Area</span>
+        <span style="font-size:14px;font-weight:300;color:rgba(253,251,247,.85)">{{ serviceArea }}</span>
+        <a href="#contact" style="margin-top:8px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#211C16;background:#FDFBF7;padding:14px 18px;text-align:left">Book Your Event</a>
+      </div>
+    </div>
+    <div style="max-width:1360px;margin:clamp(32px,5vh,56px) auto 0;padding-top:20px;border-top:1px solid rgba(253,251,247,.14);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between">
+      <span style="font-size:11px;color:rgba(253,251,247,.4)">© ADH Decor. All rights reserved.</span>
+      <span style="font-size:11px;color:rgba(253,251,247,.4)">Phone, email and WhatsApp number are placeholders — update in the component config.</span>
+    </div>
+  </footer>
+
+  <!-- ============ WHATSAPP FLOAT ============ -->
+  <a href="{{ waLink }}" target="_blank" rel="noopener" style="position:fixed;right:clamp(14px,2.5vw,28px);bottom:clamp(14px,2.5vw,28px);z-index:70;display:flex;align-items:center;gap:10px;background:#211C16;color:#FDFBF7;padding:14px 18px;box-shadow:0 8px 30px rgba(28,23,17,.22);transition:background .3s ease" style-hover="background:#A6812F">
+    <span style="display:block;width:8px;height:8px;border-radius:50%;background:#C9A44C"></span>
+    <span style="font-size:11px;letter-spacing:.16em;text-transform:uppercase">Chat with ADH Decor</span>
+  </a>
+
+  <!-- ============ LIGHTBOX ============ -->
+  <sc-if value="{{ lightboxOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:100;background:rgba(22,18,13,.94);display:flex;flex-direction:column;padding:clamp(14px,3vw,34px)">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex:0 0 auto">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <span style="font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(253,251,247,.55)">{{ lbCategory }}</span>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:clamp(20px,2.4vw,30px);font-weight:300;color:#FDFBF7">{{ lbTitle }}</span>
+        </div>
+        <button type="button" onClick="{{ closeLightbox }}" aria-label="Close" style="border:1px solid rgba(253,251,247,.3);background:transparent;color:#FDFBF7;font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:12px 18px;cursor:pointer">Close ✕</button>
+      </div>
+      <div style="flex:1 1 auto;min-height:0;display:flex;align-items:center;gap:clamp(8px,2vw,22px);padding:clamp(12px,2vh,24px) 0">
+        <button type="button" onClick="{{ prevShot }}" aria-label="Previous" style="flex:0 0 auto;border:1px solid rgba(253,251,247,.25);background:transparent;color:#FDFBF7;width:44px;height:44px;font-size:16px;cursor:pointer">‹</button>
+        <div style="flex:1 1 auto;height:100%;min-width:0;position:relative;background:#191510">
+          <image-slot id="{{ lbSlot }}" src="{{ lbSrc }}" shape="rect" fit="contain" placeholder="{{ lbPlaceholder }}"></image-slot>
+        </div>
+        <button type="button" onClick="{{ nextShot }}" aria-label="Next" style="flex:0 0 auto;border:1px solid rgba(253,251,247,.25);background:transparent;color:#FDFBF7;width:44px;height:44px;font-size:16px;cursor:pointer">›</button>
+      </div>
+      <p style="margin:0;flex:0 0 auto;font-size:13px;line-height:1.7;font-weight:300;color:rgba(253,251,247,.7);max-width:640px">{{ lbDesc }}</p>
+    </div>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+/* ---- CONFIG: business owner edits these three values ---- */
+const CONFIG = {
+  whatsappNumber: "0000000000",           // <-- REPLACE with real number, digits + country code, no +
+  whatsappMessage: "Hi ADH Decor, I'd like to enquire about event decoration.",
+  phoneDisplay: "+1 (000) 000-0000",       // <-- REPLACE
+  emailDisplay: "hello@adhdecor.com",      // <-- REPLACE
+  serviceArea: "Brampton & Greater Toronto Area",
+  instagram: "https://www.instagram.com/adh.decor/"
+};
+
+const IMG = {
+  lavenderRiver: "uploads/pasted-1787741277591-0.png",
+  lakeSunset:    "uploads/pasted-1787741311507-0.png",
+  blushTable:    "uploads/pasted-1787741342965-0.png",
+  marryMe:       "uploads/pasted-1787741356540-0.png",
+  kidsPicnic:    "uploads/pasted-1787741370165-0.png",
+  sequinArch:    "uploads/pasted-1787741382949-0.png",
+  sageTable:     "uploads/pasted-1787741413329-0.png",
+  blackBalloons: "uploads/pasted-1787741465019-0.png"
+};
+
+const SERVICES = [
+  { title: "Romantic Room Decor", body: "Beautiful room transformations for anniversaries, proposals, birthdays and surprises.", placeholder: "Romantic room setup", src: IMG.blackBalloons },
+  { title: "Birthday Decor", body: "Balloon installations, numbers, backdrops and personalized birthday setups.", placeholder: "Birthday setup", src: IMG.kidsPicnic },
+  { title: "Anniversary Decor", body: "Elegant romantic styling, balloons, petals, candles and personalized details.", placeholder: "Anniversary setup", src: IMG.blushTable },
+  { title: "Proposal Setup", body: "Intimate and memorable proposal environments designed around your moment.", placeholder: "Proposal setup", src: IMG.marryMe },
+  { title: "Balloon Styling", body: "Creative balloon installations, arches, ceilings, bouquets and custom arrangements.", placeholder: "Balloon installation", src: IMG.sequinArch },
+  { title: "Luxury Picnics", body: "Low tables, cushions, florals and full tablescapes styled outdoors.", placeholder: "Luxury picnic", src: IMG.lavenderRiver }
+];
+
+/* ---- PORTFOLIO DATA: replace/extend freely ---- */
+const PORTFOLIO = [
+  { category: "Picnics", title: "Lavender Riverside Picnic", ratio: 1.42, src: IMG.lavenderRiver, desc: "A low table by the water in lilac and ivory — teepee, chiffon runner, ruffled cushions and layered florals." },
+  { category: "Romantic", title: "Sunset by the Lake", ratio: 0.66, src: IMG.lakeSunset, desc: "Fringed umbrella, blush tablescape and a garlanded teepee set against the water at golden hour." },
+  { category: "Anniversaries", title: "Blush Tablescape", ratio: 0.70, src: IMG.blushTable, desc: "Charger plates, gold cutlery, chiffon napkins and dense pink florals — the detail layer up close." },
+  { category: "Proposals", title: "Marry Me by the Water", ratio: 0.71, src: IMG.marryMe, desc: "Marquee letters, cushion seating and a fully styled sweetheart table for the moment itself." },
+  { category: "Birthdays", title: "Pastel Birthday Picnic", ratio: 1.30, src: IMG.kidsPicnic, desc: "Two long picnic tables, star plates and a custom balloon backdrop for a milestone birthday." },
+  { category: "Balloons", title: "Sequin Balloon Backdrop", ratio: 1.38, src: IMG.sequinArch, desc: "Custom name backdrop with a shimmer wall and an organic balloon garland in pink, lilac and blue." },
+  { category: "Events", title: "Sage & Ivory Long Table", ratio: 1.32, src: IMG.sageTable, desc: "A twelve-seat floor-level table in sage and ivory — fringed umbrellas, rugs and cushion seating." },
+  { category: "Romantic", title: "Black & Silver Room Surprise", ratio: 0.83, src: IMG.blackBalloons, desc: "Balloon ceiling, marquee lettering and rose detailing for a night-time birthday room reveal." }
+];
+
+const FILTERS = ["All", "Picnics", "Romantic", "Birthdays", "Anniversaries", "Proposals", "Balloons", "Events"];
+
+const PACKAGES = [
+  { kicker: "Starting from", name: "Romantic Essentials", blurb: "For intimate room surprises.", items: ["Balloon styling", "Bed decoration", "Petals", "Romantic accents"], cta: "Get a Quote" },
+  { kicker: "Starting from", name: "Signature Celebration", blurb: "A complete room transformation.", items: ["Balloon installation", "Personalized message", "Bed styling", "Floor decoration", "Decorative accents"], cta: "Get a Quote" },
+  { kicker: "Custom quote", name: "Bespoke Event", blurb: "Fully customized decoration.", items: ["Custom theme", "Balloon installation", "Backdrop", "Props", "Personalized styling"], cta: "Request Custom Quote" }
+];
+
+const STEPS = [
+  { n: "01", title: "Tell Us Your Vision", body: "Share your occasion, date, location and preferred style." },
+  { n: "02", title: "We Design It", body: "We suggest the decoration concept and package that fits your event." },
+  { n: "03", title: "We Transform Your Space", body: "Our team handles the setup so you can focus on the moment." }
+];
+
+const QUOTES = [
+  { text: "\u201CThe room looked absolutely beautiful. Everything was even better than we imagined.\u201D", who: "Happy Client — placeholder" },
+  { text: "\u201CThey understood the idea straight away and handled every detail of the setup.\u201D", who: "Happy Client — placeholder" },
+  { text: "\u201CWalking in and seeing it finished was the best part of the whole evening.\u201D", who: "Happy Client — placeholder" }
+];
+
+class Component extends DCLogic {
+  state = {
+    scrolled: false, menuOpen: false, filter: "All",
+    lb: -1,
+    form: { name: "", phone: "", email: "", type: "", date: "", location: "", budget: "", vision: "" },
+    error: "", submitted: false, wide: true
+  };
+
+  componentDidMount() {
+    this._onScroll = () => {
+      const s = window.scrollY > 40;
+      if (s !== this.state.scrolled) this.setState({ scrolled: s });
+    };
+    window.addEventListener("scroll", this._onScroll, { passive: true });
+    this._onResize = () => {
+      const w = window.innerWidth > 1024;
+      if (w !== this.state.wide) this.setState({ wide: w });
+      this._applyNav();
+    };
+    window.addEventListener("resize", this._onResize);
+    this._onKey = (e) => {
+      if (this.state.lb < 0) return;
+      if (e.key === "Escape") this.setState({ lb: -1 });
+      if (e.key === "ArrowRight") this._step(1);
+      if (e.key === "ArrowLeft") this._step(-1);
+    };
+    window.addEventListener("keydown", this._onKey);
+    this._reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    [200, 700, 1500].forEach(t => setTimeout(() => { this._applyNav(); this._reveal(); this._hover(); }, t));
+    this._onResize();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this._onScroll);
+    window.removeEventListener("resize", this._onResize);
+    window.removeEventListener("keydown", this._onKey);
+  }
+
+  componentDidUpdate() { this._applyNav(); this._reveal(); this._hover(); }
+
+  _applyNav() {
+    const wide = window.innerWidth > 1024;
+    document.querySelectorAll("[data-navlink]").forEach(a => { a.style.display = wide ? "inline-flex" : "none"; });
+    document.querySelectorAll("[data-burger]").forEach(b => { b.style.display = wide ? "none" : "flex"; });
+  }
+
+  _reveal() {
+    if (this._reduced) return;
+    if (!this._io) {
+      this._io = new IntersectionObserver(entries => {
+        entries.forEach(en => {
+          if (en.isIntersecting) {
+            en.target.style.opacity = "1";
+            en.target.style.transform = "none";
+            this._io.unobserve(en.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+    }
+    document.querySelectorAll("[data-reveal]:not([data-revealed])").forEach(el => {
+      el.setAttribute("data-revealed", "1");
+      el.style.opacity = "0";
+      el.style.transform = "translateY(22px)";
+      el.style.transition = "opacity .7s cubic-bezier(.22,.61,.36,1), transform .7s cubic-bezier(.22,.61,.36,1)";
+      this._io.observe(el);
+      // Safety: never let content stay hidden if the observer never fires
+      // (e.g. host frames where the document itself does not scroll).
+      setTimeout(() => {
+        if (el.style.opacity === "0") { el.style.opacity = "1"; el.style.transform = "none"; }
+      }, 1600);
+    });
+  }
+
+  _hover() {
+    document.querySelectorAll("[data-hovercap]:not([data-hb])").forEach(cap => {
+      const btn = cap.closest("button");
+      if (!btn) return;
+      cap.setAttribute("data-hb", "1");
+      const veil = btn.querySelector("[data-hoverveil]");
+      const slot = btn.querySelector("image-slot");
+      if (slot) { slot.style.transition = "transform .7s cubic-bezier(.22,.61,.36,1)"; }
+      const on = () => { cap.style.opacity = "1"; cap.style.transform = "none"; if (veil) veil.style.opacity = "1"; if (slot) slot.style.transform = "scale(1.05)"; };
+      const off = () => { cap.style.opacity = "0"; cap.style.transform = "translateY(8px)"; if (veil) veil.style.opacity = "0"; if (slot) slot.style.transform = "none"; };
+      btn.addEventListener("mouseenter", on);
+      btn.addEventListener("mouseleave", off);
+      btn.addEventListener("focus", on);
+      btn.addEventListener("blur", off);
+    });
+  }
+
+  _step(d) {
+    const list = this._filtered();
+    const cur = list.findIndex(x => x.i === this.state.lb);
+    if (cur < 0) return;
+    const nxt = (cur + d + list.length) % list.length;
+    this.setState({ lb: list[nxt].i });
+  }
+
+  _filtered() {
+    const f = this.state.filter;
+    return PORTFOLIO.map((p, i) => ({ ...p, i })).filter(p => f === "All" || p.category === f);
+  }
+
+  renderVals() {
+    const st = this.state;
+    const wa = "https://wa.me/" + CONFIG.whatsappNumber + "?text=" + encodeURIComponent(CONFIG.whatsappMessage);
+    const lbItem = st.lb >= 0 ? PORTFOLIO[st.lb] : null;
+
+    return {
+      serviceArea: CONFIG.serviceArea,
+      phoneDisplay: CONFIG.phoneDisplay,
+      emailDisplay: CONFIG.emailDisplay,
+      waLink: wa,
+
+      navBackdrop: {
+        position: "absolute", inset: 0, background: "#FDFBF7",
+        borderBottom: "1px solid #E7DAC2",
+        opacity: st.scrolled ? 1 : 0,
+        transition: "opacity .4s ease", pointerEvents: "none"
+      },
+      toggleMenu: () => this.setState({ menuOpen: !st.menuOpen }),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      mobileMenu: {
+        display: "flex", flexDirection: "column", gap: 14,
+        background: "#FDFBF7", borderBottom: "1px solid #E7DAC2",
+        padding: st.menuOpen ? "26px clamp(20px,4vw,64px) 32px" : "0 clamp(20px,4vw,64px)",
+        maxHeight: st.menuOpen ? 460 : 0, opacity: st.menuOpen ? 1 : 0,
+        overflow: "hidden", transition: "max-height .45s cubic-bezier(.22,.61,.36,1), opacity .3s ease, padding .45s ease"
+      },
+
+      services: SERVICES.map((s, i) => ({
+        ...s, slotId: "adh-svc-" + i,
+        imgWrap: { position: "absolute", inset: 0 }
+      })),
+      heroSrc: IMG.lakeSunset,
+      introSrc: IMG.lavenderRiver,
+      bandSrc: IMG.sageTable,
+      detailSrc: IMG.blushTable,
+
+      filters: FILTERS.map(label => ({
+        label: label.toUpperCase(),
+        onClick: () => this.setState({ filter: label }),
+        style: {
+          border: "1px solid " + (st.filter === label ? "#211C16" : "#E3D5B8"),
+          background: st.filter === label ? "#211C16" : "transparent",
+          color: st.filter === label ? "#FDFBF7" : "#5A5348",
+          fontSize: 10, letterSpacing: ".2em", textTransform: "uppercase",
+          padding: "12px 18px", cursor: "pointer", transition: "all .28s ease"
+        }
+      })),
+
+      shots: this._filtered().map(p => ({
+        category: p.category.toUpperCase(), title: p.title,
+        slotId: "adh-p-" + p.i, src: p.src,
+        placeholder: p.category + " — " + p.title,
+        onClick: () => this.setState({ lb: p.i }),
+        imgWrap: { position: "absolute", inset: 0 },
+        cellStyle: { position: "relative", aspectRatio: "1 / " + p.ratio }
+      })),
+
+      packages: PACKAGES,
+      steps: STEPS,
+      quotes: QUOTES,
+      social: Object.values(IMG).map((src, i) => ({ slotId: "adh-ig-" + i, src })),
+
+      submitted: st.submitted,
+      notSubmitted: !st.submitted,
+      hasError: !!st.error,
+      errorText: st.error,
+      f_name: st.form.name, f_phone: st.form.phone, f_email: st.form.email,
+      f_type: st.form.type, f_date: st.form.date, f_location: st.form.location,
+      f_budget: st.form.budget, f_vision: st.form.vision,
+      onField: (e) => {
+        const { name, value } = e.target;
+        this.setState({ form: { ...st.form, [name]: value } });
+      },
+      onSubmit: (e) => {
+        e.preventDefault();
+        const f = st.form;
+        if (!f.name.trim() || !f.phone.trim() || !f.type) {
+          this.setState({ error: "Please add your name, phone/WhatsApp and event type so we can reply." });
+          return;
+        }
+        if (f.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email)) {
+          this.setState({ error: "That email address doesn't look right." });
+          return;
+        }
+        this.setState({ error: "", submitted: true });
+      },
+      resetForm: () => this.setState({
+        submitted: false, error: "",
+        form: { name: "", phone: "", email: "", type: "", date: "", location: "", budget: "", vision: "" }
+      }),
+
+      lightboxOpen: st.lb >= 0,
+      lbCategory: lbItem ? lbItem.category : "",
+      lbTitle: lbItem ? lbItem.title : "",
+      lbDesc: lbItem ? lbItem.desc : "",
+      lbSlot: st.lb >= 0 ? "adh-p-" + st.lb : "adh-p-x",
+      lbSrc: lbItem ? lbItem.src : "",
+      lbPlaceholder: lbItem ? lbItem.category + " — " + lbItem.title : "",
+      closeLightbox: () => this.setState({ lb: -1 }),
+      nextShot: () => this._step(1),
+      prevShot: () => this._step(-1)
+    };
+  }
+}
+
+</script>
+</body>
+</html>

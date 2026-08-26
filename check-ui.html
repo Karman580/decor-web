@@ -1,0 +1,127 @@
+<!-- Interaction check for the logic check.py cannot see: multi-category
+     portfolio filtering, the lightbox, and the quote form. Serve the folder
+     (python3 -m http.server) and open this file. All lines should read PASS. -->
+<title>Adorna Decor — UI checks</title>
+<style>body{margin:0;background:#111;font:12px monospace;color:#0f0;padding:10px;white-space:pre}
+ iframe{border:0;position:absolute;left:-9999px}</style>
+<pre id="out">running…</pre>
+<iframe id="f" src="index.html" width="1200" height="900"></iframe>
+<script>
+const log=[]; const ok=(n,c)=>log.push((c?"PASS ":"FAIL ")+n);
+addEventListener("load", () => setTimeout(async () => {
+  const w=document.getElementById("f").contentWindow, d=w.document;
+  const shots=[...d.querySelectorAll(".shot")];
+  const vis=()=>shots.filter(s=>!s.hidden).length;
+
+  ok("all shots visible initially (8)", vis()===8);
+
+  const click=sel=>{const e=d.querySelector(sel); e.dispatchEvent(new w.MouseEvent("click",{bubbles:true})); return e;};
+  click('#filters button[data-filter="Balloons"]');
+  ok("Balloons filter -> 3", vis()===3);
+  click('#filters button[data-filter="Indoor"]');
+  ok("Indoor filter -> 1", vis()===1);
+  const pressed=d.querySelector('#filters button[aria-pressed="true"]').dataset.filter;
+  ok("aria-pressed tracks Indoor", pressed==="Indoor");
+  click('#filters button[data-filter="All"]');
+  ok("All filter -> 8", vis()===8);
+
+  // lightbox
+  shots[4].dispatchEvent(new w.MouseEvent("click",{bubbles:true}));
+  const lb=d.getElementById("lb");
+  ok("lightbox opens", !lb.hidden);
+  ok("lightbox shows primary category", d.getElementById("lbCat").textContent==="Outdoor");
+  ok("lightbox src matches shot", d.getElementById("lbImg").src.includes("pastel-birthday-picnic"));
+  const t1=d.getElementById("lbTitle").textContent;
+  d.getElementById("lbNext").dispatchEvent(new w.MouseEvent("click",{bubbles:true}));
+  ok("next advances", d.getElementById("lbTitle").textContent!==t1);
+  w.dispatchEvent(new w.KeyboardEvent("keydown",{key:"Escape"}));
+  ok("Escape closes", lb.hidden);
+
+  // filtered lightbox nav stays inside the filter
+  click('#filters button[data-filter="Balloons"]');
+  const bshots=shots.filter(s=>!s.hidden);
+  bshots[0].dispatchEvent(new w.MouseEvent("click",{bubbles:true}));
+  const seen=new Set();
+  for(let i=0;i<3;i++){seen.add(d.getElementById("lbTitle").textContent);
+    d.getElementById("lbNext").dispatchEvent(new w.MouseEvent("click",{bubbles:true}));}
+  ok("lightbox cycles only the 3 filtered shots", seen.size===3);
+  w.dispatchEvent(new w.KeyboardEvent("keydown",{key:"Escape"}));
+  click('#filters button[data-filter="All"]');
+
+  // form validation
+  const form=d.getElementById("form"), card=d.getElementById("card"), err=d.getElementById("err");
+  form.dispatchEvent(new w.Event("submit",{bubbles:true,cancelable:true}));
+  ok("empty submit blocked with message", !!err.textContent && !card.classList.contains("sent"));
+  d.querySelector('[name=name]').value="Test Person";
+  d.querySelector('[name=phone]').value="+1 555 0100";
+  d.querySelector('[name=type]').value="Birthday";
+  d.querySelector('[name=email]').value="not-an-email";
+  form.dispatchEvent(new w.Event("submit",{bubbles:true,cancelable:true}));
+  ok("bad email blocked", err.textContent.includes("email") && !card.classList.contains("sent"));
+  d.querySelector('[name=email]').value="a@b.co";
+  d.querySelector('[name=setting]').value="Outdoor";
+  d.querySelector('[name=guests]').value="40";
+  form.dispatchEvent(new w.Event("submit",{bubbles:true,cancelable:true}));
+  ok("valid submit shows thanks", card.classList.contains("sent"));
+  const href=decodeURIComponent(d.getElementById("waSend").href);
+  ok("WhatsApp link carries new fields", href.includes("Indoor/Outdoor: Outdoor") && href.includes("Guests: 40") && href.includes("Test Person"));
+  d.getElementById("again").dispatchEvent(new w.MouseEvent("click",{bubbles:true}));
+  ok("send another resets", !card.classList.contains("sent") && !d.querySelector('[name=name]').value);
+
+  // ---- Google Form backend ----
+  ok("backend disabled by default", w.eval("formConfigured()")===false);
+  ok("no send-note when unconfigured", d.getElementById("sendLine").textContent==="");
+
+  // Stub fetch inside the page's own realm and point FORM at a fake endpoint,
+  // so the real submit path is exercised without touching the network.
+  w.eval(`
+    window.__cap = null;
+    window.fetch = (url, o) => { window.__cap = { url, mode: o.mode, body: [...o.body.entries()] };
+                                 return Promise.resolve({}); };
+    FORM.action = "https://example.test/formResponse";
+    FORM.entries.name = "entry.1"; FORM.entries.phone = "entry.2";
+    FORM.entries.type = "entry.3"; FORM.entries.guests = "entry.4";
+    FORM.entries.email = "entry.5";
+  `);
+  ok("backend enabled once configured", w.eval("formConfigured()")===true);
+
+  const fill = () => {
+    d.querySelector('[name=name]').value="Grace Okoro";
+    d.querySelector('[name=phone]').value="+1 555 0199";
+    d.querySelector('[name=type]').value="Engagement";
+    d.querySelector('[name=guests]').value="60";
+    d.querySelector('[name=email]').value="";
+  };
+  fill();
+  form.dispatchEvent(new w.Event("submit",{bubbles:true,cancelable:true}));
+  await new Promise(r=>setTimeout(r,60));
+  const cap = w.__cap;
+  ok("POSTs to the configured action", cap && cap.url==="https://example.test/formResponse");
+  ok("uses no-cors", cap && cap.mode==="no-cors");
+  const pairs = cap ? Object.fromEntries(cap.body) : {};
+  ok("maps fields to entry ids", pairs["entry.1"]==="Grace Okoro" && pairs["entry.2"]==="+1 555 0199"
+      && pairs["entry.3"]==="Engagement" && pairs["entry.4"]==="60");
+  ok("omits empty fields", !("entry.5" in pairs));
+  ok("unmapped fields are not sent", Object.keys(pairs).length===4);
+  ok("thanks shown after POST", card.classList.contains("sent"));
+  ok("no failure note on success", d.getElementById("sendLine").textContent==="");
+
+  // failure path: visitor must not be told a lost enquiry was received
+  d.getElementById("again").dispatchEvent(new w.MouseEvent("click",{bubbles:true}));
+  w.eval(`window.fetch = () => Promise.reject(new Error("offline"));`);
+  fill();
+  form.dispatchEvent(new w.Event("submit",{bubbles:true,cancelable:true}));
+  await new Promise(r=>setTimeout(r,60));
+  ok("failed POST surfaces WhatsApp fallback",
+     d.getElementById("sendLine").textContent.includes("WhatsApp"));
+  ok("submit button re-enabled after failure",
+     !d.querySelector('#form button[type=submit]').disabled);
+  d.getElementById("again").dispatchEvent(new w.MouseEvent("click",{bubbles:true}));
+
+  ok("testimonials hidden", d.querySelector("section.quotes").hidden===true);
+  ok("no console-visible brand leftovers", !d.body.innerHTML.includes("ADH Decor"));
+
+  const fails=log.filter(l=>l.startsWith("FAIL")).length;
+  document.getElementById("out").textContent=log.join("\n")+`\n\n${log.length-fails}/${log.length} passed`;
+}, 3000));
+</script>
