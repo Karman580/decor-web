@@ -1,7 +1,7 @@
-# Adorna Decor — website
+# Avenoir Decor — website
 
 `index.html` is the website. It began as an implementation of the
-`ADH Decor.dc.html` design and has since been revised for the Adorna Decor
+`ADH Decor.dc.html` design and has since been revised for the Avenoir Decor
 brand and indoor+outdoor positioning. One
 self-contained file: no build step, no dependencies. Open it, or serve the
 folder (`python3 -m http.server`) and visit it.
